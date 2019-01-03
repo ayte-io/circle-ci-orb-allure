@@ -1,0 +1,51 @@
+version: '2.1'
+description: Orb providing support for [Allure Framework](https://github.com/allure-framework/allure2)
+commands:
+  install:
+    description: Installs Allure Framework and registers it as /usr/local/bin/allure
+    parameters:
+      version:
+        description: Allure version to use
+        type: string
+        default: 2.8.1
+    steps:
+      - run:
+          name: Allure archive download
+          command: curl -L https://dl.bintray.com/qameta/maven/io/qameta/allure/allure-commandline/<< parameters.version >>/allure-commandline-<< parameters.version >>.zip -o /tmp/allure.zip
+      - run:
+          name: Archive extraction
+          command: unzip /tmp/allure.zip
+      - run:
+          name: Allure installation
+          command: sudo mv allure-<< parameters.version >> /usr/local/share/allure
+      - run:
+          name: Allure binary symlinking
+          command: sudo ln -s /usr/local/share/allure/bin/allure /usr/local/bin/allure
+  report:
+    description: Generates report using Allure Framework
+    parameters:
+      configuration-path:
+        description: Path to Allure configuration, uses default one if omitted
+        type: string
+        default: /usr/local/share/allure/config/allure.yml
+      target-path:
+        description: Where to emit report, `allure-report`
+        type: string
+        default: allure-report
+      results-path:
+        type: string
+        default: allure-results
+      artifact-path:
+        type: string
+        default: Report/Allure
+    steps:
+      - run:
+          name: Allure report generation (<< parameters.results-path >> -> << parameters.target-path >>)
+          command: |
+            allure generate \
+              --config << parameters.configuration-path >> \
+              --report-dir << parameters.target-path >> \
+              << parameters.results-path >>
+      - store_artifacts:
+          path: << parameters.target-path >>
+          destination: << parameters.artifact-path >>
