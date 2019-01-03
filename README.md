@@ -3,6 +3,8 @@
 This repository contains Circle CI orb that brings support for 
 [Allure Framework](https://github.com/allure-framework/allure2).
 
+It is implied that target executor installs JRE separately.
+
 Orb exports two commands:
 
 ### allure/install
