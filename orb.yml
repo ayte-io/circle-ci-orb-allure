@@ -29,13 +29,15 @@ commands:
         type: string
         default: /usr/local/share/allure/config/allure.yml
       target-path:
-        description: Where to emit report, `allure-report`
+        description: Path for report directory
         type: string
         default: allure-report
       results-path:
+        description: Path to directory with test results
         type: string
         default: allure-results
       artifact-path:
+        description: Path that will be used when storing result as artifact
         type: string
         default: Report/Allure
     steps:
