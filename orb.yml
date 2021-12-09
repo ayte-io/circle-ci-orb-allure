@@ -7,11 +7,11 @@ commands:
       version:
         description: Allure version to use
         type: string
-        default: 2.13.1
+        default: 2.17.1
     steps:
       - run:
           name: Allure archive download
-          command: curl -L https://github.com/allure-framework/allure2/releases/download/<< parameters.version >>/allure-commandline-<< parameters.version >>.zip -o /tmp/allure.zip
+          command: curl -L https://github.com/allure-framework/allure2/releases/download/<< parameters.version >>/allure-<< parameters.version >>.zip -o /tmp/allure.zip
       - run:
           name: Archive extraction
           command: unzip /tmp/allure.zip
